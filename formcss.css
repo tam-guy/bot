@@ -1,0 +1,213 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #121212;
+    color: #EAEAEA;
+    overflow: hidden; /* Prevent body scrolling */
+}
+
+.tabs-container {
+    width: 100%;
+    max-width: 600px;
+    position: relative;
+    height: 90vh; /* Set height to the container */
+    display: flex;
+    flex-direction: column;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 10px 0;
+}
+
+.tab-button {
+    background-color: #1E1E1E;
+    border: none;
+    padding: 10px 20px;
+    color: #EAEAEA;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tab-button.active, .tab-button:hover {
+    background-color: lightslategrey;
+    opacity: 80%;
+    color: white;
+}
+
+.tab-content {
+    display: none;
+    flex-grow: 1;
+    overflow-y: auto; /* Enable scrolling within the tab content */
+    padding: 20px; /* Add padding to tab content */
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.form-container {
+    background-color: #1E1E1E;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    width: calc(100% - 40px); /* Adjust width to account for padding */
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #A1A1A1;
+}
+
+.amount-input {
+    display: flex;
+    align-items: center;
+}
+
+.amount-input span {
+    font-size: 3em;
+    margin-right: 10px;
+}
+
+.amount-input input {
+    font-size: 3em;
+    flex: 1;
+}
+
+.amount-input .toggle-button {
+    font-size: 1.5em;
+    margin-left: 10px;
+    padding: 10px;
+    background-color: #2C2C2C;
+    color: #EAEAEA;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    flex: 0 0 60px; /* Set a fixed width for the button */
+}
+
+.amount-input .toggle-button:hover {
+    background-color: #333;
+}
+
+.form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 6px;
+    background-color: #2C2C2C;
+    font-size: 1.5em;
+    color: #EAEAEA;
+    box-sizing: border-box; /* Ensure padding is included in the element's total width and height */
+    -webkit-appearance: none; /* Remove default styling in WebKit browsers */
+    -moz-appearance: textfield; /* Remove default styling in Firefox */
+    appearance: none; /* Remove default styling in other browsers */
+}
+
+form input[type="number"]::-webkit-outer-spin-button,
+form input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+form input[type="number"] {
+    -moz-appearance: textfield; /* Remove default styling in Firefox */
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-group select {
+    padding-right: 30px; /* Add space for dropdown arrow */
+    background: #2C2C2C url('data:image/svg+xml;utf8,<svg fill="%23EAEAEA" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>') no-repeat right center; /* Add custom dropdown arrow */
+    background-size: 15px 15px; /* Size the arrow */
+}
+
+.form-group button {
+    background-color: #007AFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    width: 100%; /* Make button width 100% */
+    box-sizing: border-box; /* Ensure padding is included in the button's total width and height */
+}
+
+.form-group button:hover {
+    background-color: #005BB5;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+    border: 1px solid #333;
+    background-color: #2C2C2C;
+    color: #EAEAEA;
+    text-align: left;
+}
+
+.styled-table thead th {
+    background-color: #1F1F1F;
+    color: #FFFFFF;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #333;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #2C2C2C;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #333;
+}
+
+.negative {
+    color: red;
+}
+
+.positive {
+    color: green;
+}
+
+@media (max-width: 600px) {
+    .form-container {
+        padding: 15px;
+    }
+
+    .form-group button {
+        width: 100%;
+    }
+
+    .styled-table th, .styled-table td {
+        padding: 8px 10px;
+    }
+}

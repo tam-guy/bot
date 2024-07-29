@@ -37,6 +37,7 @@ body {
     color: #EAEAEA;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 1.2em;
 }
 
 .tab-button.active, .tab-button:hover {
@@ -144,6 +145,7 @@ form input[type="number"] {
 
 .form-group button {
     background-color: #007AFF;
+    font-size: 1.2em;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -196,6 +198,37 @@ form input[type="number"] {
 
 .positive {
     color: green;
+}
+
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.card {
+    background-color: #1E1E1E;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: #EAEAEA;
+}
+
+.card .icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.card .account {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.card .balance {
+    font-size: 1.8em;
+    font-weight: bold;
 }
 
 @media (max-width: 600px) {

@@ -116,10 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Allow only numbers, a single minus sign, and a decimal point
   function validateInput(event) {
-    const value = event.target.value;
-    if (!/^-?\d*\.?\d*$/.test(value)) {
-      event.target.value = value.slice(0, -1);
-    }
+    // const value = event.target.value;
+    // if (!/^-?\d*\.?\d*$/.test(value)) {
+    //   event.target.value = value.slice(0, -1);
+    // }
     setContribution();
   }
 

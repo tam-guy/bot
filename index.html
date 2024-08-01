@@ -21,7 +21,7 @@
                         <label for="amount">Amount</label>
                         <div class="amount-input">
                             <span>$</span>
-                            <input type="number" id="amount" name="amount" required step="0.01" inputmode="decimal">
+                            <input type="number" id="amount" name="amount" required step="0.01" pattern="\d*\.?\d*" inputmode="decimal">
                             <button type="button" id="toggle-sign" class="toggle-button">±</button>
                         </div>
                     </div>
@@ -29,7 +29,7 @@
                         <label for="contribution">My Contribution</label>
                         <div class="amount-input">
                             <span>$</span>
-                            <input type="number" id="contribution" name="contribution" step="0.01">
+                            <input type="number" id="contribution" name="contribution" step="0.01" pattern="\d*\.?\d*" inputmode="decimal">
                         </div>
                     </div>
                     <div class="form-group">

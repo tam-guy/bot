@@ -1,93 +1,147 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fintrack</title>
-    <link rel="stylesheet" href="formcss.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 448 512'><path d='M224 0c-35.3 0-64 28.7-64 64v32H128C57.3 96 0 153.3 0 224v160c0 70.7 57.3 128 128 128h192c70.7 0 128-57.3 128-128V224c0-70.7-57.3-128-128-128h-32V64c0-35.3-28.7-64-64-64zm0 32c17.6 0 32 14.4 32 32v64H192V64c0-17.6 14.4-32 32-32zm64 96h32c52.9 0 96 43.1 96 96v160c0 52.9-43.1 96-96 96H128c-52.9 0-96-43.1-96-96V224c0-52.9 43.1-96 96-96h32v64h128v-64z'/></svg>" type="image/svg+xml">
-</head>
-<body>
-    <div class="tabs-container">
-        <div class="tabs">
-            <button class="tab-button active" onclick="openTab(event, 'add-transaction')">Add Transaction</button>
-            <button class="tab-button" onclick="openTab(event, 'balance')">Balance</button>
-        </div>
-        <div id="add-transaction" class="tab-content active">
-            <div class="form-container">
-                <form method="post" action="https://script.google.com/macros/s/AKfycbwFIXDMS8bZ1emNeQB3y7lZmYcKWd2lP51GKApBCECGGlnn6P1k8DXBk0KoxdyHxcQvIQ/exec" name="contact-form">
-                    <div class="form-group">
-                        <label for="amount">Amount</label>
-                        <div class="amount-input">
-                            <span>$</span>
-                            <input type="number" id="amount" name="amount" required>
-                            <button type="button" id="toggle-sign" class="toggle-button">±</button>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="contribution">My Contribution</label>
-                        <div class="amount-input">
-                            <span>$</span>
-                            <input type="number" id="contribution" name="contribution" required>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="account">Account</label>
-                        <select id="account" name="account" required>
-                            <option value="Chase">Chase</option>
-                            <option value="Discover" selected>Discover</option>
-                            <option value="Apple">Apple</option>
-                            <option value="Zolve">Zolve</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="category">Category</label>
-                        <select id="category" name="category" required>
-                            <option value="">-- No Category --</option>
-                            <option value="Misc">Misc</option>
-                            <option value="Home">Home</option>
-                            <option value="Entertainment">Entertainment</option>
-                            <option value="Food" selected>Food</option>
-                            <option value="Travel">Travel</option>
-                            <option value="Savings">Savings</option>
-                            <option value="Transfer">Transfer</option>
-                            <option value="Other Needs">Other Needs</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="date">Date</label>
-                        <input type="date" id="date" name="date" required>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit">Save</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div id="balance" class="tab-content">
-            <div class="form-container">
-                <div class="form-group">
-                    <button id="retrieve-button">Get Balance</button>
-                </div>
-                <div id="balance-cards" class="card-container">
-                    <!-- Cards will be dynamically added here -->
-                </div>
-                <h4>Expenses</h4>
-                <table id="expense-table" class="styled-table">
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>$$</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Rows will be dynamically added here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <script src="script.js"></script>
-</body>
-</html>
+const scriptURL = 'https://script.google.com/macros/s/AKfycbyzgufJosKrhtFVxw38sYiF6MKNT2JT9bJvzUJmwdOV4G10UG_AEjEBh417Sm0vLjezXA/exec';
+
+const form = document.forms['contact-form'];
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+    .then(response => alert("Thank you! Your form is submitted successfully."))
+    .then(() => { window.location.reload(); })
+    .catch(error => console.error('Error!', error.message));
+});
+
+const retrieveButton = document.getElementById('retrieve-button');
+retrieveButton.addEventListener('click', fetchCellData);
+
+function fetchCellData() {
+  fetch(scriptURL + '?action=retrieve')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      const expenseTableBody = document.getElementById('expense-table').getElementsByTagName('tbody')[0];
+      const balanceCardsContainer = document.getElementById('balance-cards');
+
+      expenseTableBody.innerHTML = '';
+      data.expenseCategories.forEach((row, index) => {
+        const newRow = expenseTableBody.insertRow();
+        const cell1 = newRow.insertCell(0);
+        const cell2 = newRow.insertCell(1);
+        cell1.innerHTML = row[0];
+        cell2.innerHTML = row[1];
+
+        // Add a specific class to the last row
+        if (index === data.expenseCategories.length - 1) {
+          newRow.classList.add('last-row-highlight');
+        }
+      });
+
+      balanceCardsContainer.innerHTML = '';
+      const icons = ['fa-credit-card', 'fa-credit-card', 'fa-credit-card', 'fa-university']; // Font Awesome icons
+      const colors = ['#ec6d28', '#592136', 'white', '#0477fb']; // Colors for icons
+      data.balance.forEach((row, index) => {
+        const card = document.createElement('div');
+        card.classList.add('card');
+        card.innerHTML = `
+          <div class="icon"><i class="fas ${icons[index % icons.length]}" style="color:${colors[index % colors.length]}"></i></div>
+          <div class="account">${row[0]}</div>
+          <div class="balance">$${row[1]}</div>
+        `;
+        balanceCardsContainer.appendChild(card);
+      });
+    })
+    .catch(error => console.error('Error!', error.message));
+}
+
+function openTab(event, tabName) {
+  // Hide all tab contents
+  var tabContents = document.getElementsByClassName('tab-content');
+  for (var i = 0; i < tabContents.length; i++) {
+    tabContents[i].style.display = 'none';
+  }
+
+  // Remove active class from all tab buttons
+  var tabButtons = document.getElementsByClassName('tab-button');
+  for (var i = 0; i < tabButtons.length; i++) {
+    tabButtons[i].className = tabButtons[i].className.replace(' active', '');
+  }
+
+  // Show the current tab and add an active class to the button that opened the tab
+  document.getElementById(tabName).style.display = 'block';
+  event.currentTarget.className += ' active';
+}
+
+// Default to the first tab
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementsByClassName('tab-button')[0].click();
+  
+  // Set default date to today
+  const dateInput = document.getElementById('date');
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  let mm = today.getMonth() + 1; // Months start at 0!
+  let dd = today.getDate();
+
+  if (dd < 10) dd = '0' + dd;
+  if (mm < 10) mm = '0' + mm;
+
+  const formattedToday = yyyy + '-' + mm + '-' + dd;
+  dateInput.value = formattedToday;
+
+  // Set default contribution to the amount
+  const amountInput = document.getElementById('amount');
+  const contributionInput = document.getElementById('contribution');
+  
+  // Initialize amountInput with just a minus sign
+  amountInput.value = '-';
+  contributionInput.value = amountInput.value;
+  
+  // Function to set contribution value and color based on amount
+  function setContribution() {
+    contributionInput.value = amountInput.value;
+    if (parseFloat(amountInput.value) < 0) {
+      amountInput.style.color = 'red';
+      contributionInput.style.color = 'red';
+    } else if (parseFloat(amountInput.value) > 0) {
+      amountInput.style.color = 'green';
+      contributionInput.style.color = 'green';
+    } else {
+      amountInput.style.color = 'inherit';
+      contributionInput.style.color = 'inherit';
+    }
+  }
+
+  // Allow only numbers, a single minus sign, and a decimal point
+  function validateInput(event) {
+    const value = event.target.value;
+    if (!/^-?\d*\.?\d*$/.test(value)) {
+      event.target.value = value.slice(0, -1);
+    }
+    setContribution();
+  }
+
+  // Event listeners to update contribution value and color when amount changes
+  amountInput.addEventListener('input', validateInput);
+  amountInput.addEventListener('change', validateInput);
+
+  // Initial setting of contribution value and color
+  setContribution();
+
+  // Toggle the sign of the amount
+  const toggleSignButton = document.getElementById('toggle-sign');
+  toggleSignButton.addEventListener('click', () => {
+    if (amountInput.value.startsWith('-')) {
+      amountInput.value = amountInput.value.substring(1);
+    } else {
+      amountInput.value = '-' + amountInput.value;
+    }
+    if (amountInput.value === '-') {
+      contributionInput.value = '';
+    } else {
+      setContribution();
+    }
+  });
+});

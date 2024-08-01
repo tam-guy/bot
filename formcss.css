@@ -231,6 +231,12 @@ form input[type="number"] {
     font-weight: bold;
 }
 
+.last-row-highlight {
+    font-size: 1.5em; /* Increase font size */
+    font-weight: bold; /* Optionally make it bold */
+    background-color: #2C2C2C; /* Match the background color */
+}
+
 @media (max-width: 600px) {
     .form-container {
         padding: 15px;

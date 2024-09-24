@@ -1,4 +1,4 @@
-const scriptURL = 'https://script.google.com/macros/s/AKfycbyzgufJosKrhtFVxw38sYiF6MKNT2JT9bJvzUJmwdOV4G10UG_AEjEBh417Sm0vLjezXA/exec';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbyeUMWOWNeAHhqVUkb0WF9Osp4Ts_mtIof19qh8jCDXEGSHFfgcCMdhpcRZPqS16D9f9Q/exec';
 
 const form = document.forms['contact-form'];
 
@@ -31,7 +31,7 @@ function fetchCellData() {
         const cell1 = newRow.insertCell(0);
         const cell2 = newRow.insertCell(1);
         cell1.innerHTML = row[0];
-        cell2.innerHTML = row[1];
+        cell2.innerHTML = parseFloat(row[1]).toFixed(2);
 
         // Add a specific class to the last row
         if (index === data.expenseCategories.length - 1) {
@@ -40,15 +40,15 @@ function fetchCellData() {
       });
 
       balanceCardsContainer.innerHTML = '';
-      const icons = ['fa-credit-card', 'fa-credit-card', 'fa-credit-card', 'fa-university']; // Font Awesome icons
-      const colors = ['#ec6d28', '#592136', 'white', '#0477fb']; // Colors for icons
+      const icons = ['fa-credit-card', 'fa-credit-card', 'fa-credit-card', 'fa-university', 'fa-university']; // Font Awesome icons
+      const colors = ['#ec6d28', '#592136', 'white', '#0477fb', '#f6472e']; // Colors for icons
       data.balance.forEach((row, index) => {
         const card = document.createElement('div');
         card.classList.add('card');
         card.innerHTML = `
           <div class="icon"><i class="fas ${icons[index % icons.length]}" style="color:${colors[index % colors.length]}"></i></div>
           <div class="account">${row[0]}</div>
-          <div class="balance">$${row[1]}</div>
+          <div class="balance">$${parseFloat(row[1]).toFixed(2)}</div>
         `;
         balanceCardsContainer.appendChild(card);
       });
